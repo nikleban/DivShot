@@ -5,7 +5,7 @@
   }
   window.__divshotActive = true;
 
-  /** @type {{ x: number, y: number, width: number, height: number, devicePixelRatio: number } | null} */
+/** @type {{ x: number, y: number, width: number, height: number, devicePixelRatio: number } | null} */
   let selectedRect = null;
 
   const overlay = document.createElement("div");
@@ -17,6 +17,10 @@
     border: "2px solid #6366f1",
     background: "rgba(99, 102, 241, 0.12)",
     boxSizing: "border-box",
+    borderRadius: "6px",
+    transition: "all 0.10s ease",
+    transform: "scale(1.02)",
+    boxShadow: "0 0 0 2px #6366f1, 0 4px 20px rgba(99, 102, 241, 0.4)",
   });
 
   document.body.appendChild(overlay);
@@ -31,15 +35,16 @@
   }
 
   function onClick(/** @type {MouseEvent} */ e) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!selectedRect) return;
-    overlay.style.display = "none";
     try {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!selectedRect) return;
+      if (!chrome.runtime?.id) { cleanup(); return; }
+      overlay.style.display = "none";
       chrome.runtime.sendMessage({
         type: "CAPTURE_ELEMENT",
         rect: selectedRect,
-      });
+      }, () => void chrome.runtime.lastError);
     } catch {
       cleanup();
     }
@@ -51,11 +56,12 @@
       window.__divshotCleanup?.();
       return;
     } else if (e.key === "Enter") {
+      if (!chrome.runtime?.id) { cleanup(); return; }
       try {
         chrome.runtime.sendMessage({
           type: "CAPTURE_ELEMENT",
           rect: selectedRect,
-        });
+        }, () => void chrome.runtime.lastError);
       } catch {
         cleanup();
       }

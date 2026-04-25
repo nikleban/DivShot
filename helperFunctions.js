@@ -5,7 +5,6 @@
  */
 function updateOverlay(overlay, el) {
   const isFullPage = el === document.documentElement;
-
   const rect = isFullPage
     ? { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight }
     : el.getBoundingClientRect();
@@ -17,11 +16,12 @@ function updateOverlay(overlay, el) {
     height: rect.height,
     devicePixelRatio: window.devicePixelRatio,
   };
+  const pad = 4;
   Object.assign(overlay.style, {
-    left: `${rect.left}px`,
-    top: `${rect.top}px`,
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
+    left: `${rect.left - pad}px`,
+    top: `${rect.top - pad}px`,
+    width: `${rect.width + pad * 2}px`,
+    height: `${rect.height + pad * 2}px`,
   });
   return selectedRect;
 }
