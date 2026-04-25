@@ -16,7 +16,7 @@
     zIndex: "2147483647",
     border: "2px solid #6366f1",
     background: "rgba(99, 102, 241, 0.12)",
-    boxSizing: "border-box"
+    boxSizing: "border-box",
   });
 
   document.body.appendChild(overlay);
@@ -36,23 +36,29 @@
     if (!selectedRect) return;
     overlay.style.display = "none";
     try {
-        chrome.runtime.sendMessage({ type: "CAPTURE_ELEMENT", rect: selectedRect });
+      chrome.runtime.sendMessage({
+        type: "CAPTURE_ELEMENT",
+        rect: selectedRect,
+      });
     } catch {
-        cleanup()
+      cleanup();
     }
   }
 
   function onKeyDown(/** @type {KeyboardEvent} */ e) {
     e.preventDefault();
     if (e.key === "Escape") {
-        window.__divshotCleanup?.();
-        return;
+      window.__divshotCleanup?.();
+      return;
     } else if (e.key === "Enter") {
-        try {
-            chrome.runtime.sendMessage({ type: "CAPTURE_ELEMENT", rect: selectedRect });
-        } catch {
-            cleanup()
-        }
+      try {
+        chrome.runtime.sendMessage({
+          type: "CAPTURE_ELEMENT",
+          rect: selectedRect,
+        });
+      } catch {
+        cleanup();
+      }
     }
   }
 
@@ -63,7 +69,6 @@
     document.removeEventListener("mousemove", onMouseMove, true);
     document.removeEventListener("click", onClick, true);
     document.removeEventListener("keydown", onKeyDown, true);
-
   }
 
   window.__divshotCleanup = cleanup;

@@ -5,7 +5,7 @@
  */
 function updateOverlay(overlay, el) {
   const isFullPage = el === document.documentElement;
-  
+
   const rect = isFullPage
     ? { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight }
     : el.getBoundingClientRect();
@@ -15,13 +15,13 @@ function updateOverlay(overlay, el) {
     y: rect.top,
     width: rect.width,
     height: rect.height,
-    devicePixelRatio: window.devicePixelRatio
+    devicePixelRatio: window.devicePixelRatio,
   };
   Object.assign(overlay.style, {
     left: `${rect.left}px`,
     top: `${rect.top}px`,
     width: `${rect.width}px`,
-    height: `${rect.height}px`
+    height: `${rect.height}px`,
   });
   return selectedRect;
 }
@@ -49,7 +49,7 @@ function downloadCrop(dataUrl, rect, onDone) {
       0,
       0,
       canvas.width,
-      canvas.height
+      canvas.height,
     );
     const link = document.createElement("a");
     link.download = "divshot.png";

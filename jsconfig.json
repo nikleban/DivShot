@@ -1,6 +1,6 @@
- {                                                                                                                   
-    "compilerOptions": {
-        "checkJs": true,
-        "types": ["chrome"]
-    }
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "types": ["chrome"]
+  }
 }
